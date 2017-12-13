@@ -16,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let beerList = BeerListWireFrame.createBeerListModule()
+        
+        self.configNavigationBar()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = beerList
+        window?.makeKeyAndVisible()
         return true
     }
 
@@ -42,5 +49,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+
+// MARK: - Private methods
+private extension AppDelegate {
+    
+    func configNavigationBar() {
+        
+        let navigationBar = UINavigationBar.appearance()
+        navigationBar.tintColor = UIColor.black
+        navigationBar.isTranslucent = true
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black]
+        
+        let statusBarFrame = UIApplication.shared.statusBarFrame
+        let navigationHeight = UINavigationController().navigationBar.frame.height + statusBarFrame.height
+        let frame = CGRect(x: 0, y: -statusBarFrame.height, width: UIScreen.main.bounds.width, height: navigationHeight)
+        
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        visualEffectView.frame = frame
+        visualEffectView.isUserInteractionEnabled = false
+        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        navigationBar.addSubview(visualEffectView)
+        
+        visualEffectView.layer.zPosition = -1
+        
+    }
+    
 }
 
