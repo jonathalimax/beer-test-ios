@@ -17,7 +17,10 @@ class AppPreferences: NSObject {
     
     var favoritesBeers: [Int] {
         get {
-            return userDefaults.object(forKey: userFavoriteBeersID) as! [Int]
+            if let beersId = userDefaults.object(forKey: userFavoriteBeersID) as? [Int] {
+                return beersId
+            }
+            return [Int]()
         }
         set {
             
@@ -35,6 +38,10 @@ class AppPreferences: NSObject {
                 }
             
                 userDefaults.set(beersID, forKey: userFavoriteBeersID)
+                
+            } else {
+                
+                userDefaults.set([newBeer], forKey: userFavoriteBeersID)
                 
             }
             
